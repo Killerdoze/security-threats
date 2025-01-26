@@ -9,6 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Navigate to project directory
+        run: cd server  # Remplacez "server" par le nom de votre sous-dossier si nécessaire
+
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
