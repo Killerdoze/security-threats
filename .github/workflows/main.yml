@@ -1,0 +1,27 @@
+name: Snyk Security Scan
+
+on: [push]
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - run: npm install
+
+      - uses: snyk/actions/node@master
+        with:
+          command: test
+          args: --severity-threshold=high --sarif-file-output=snyk.sarif
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
